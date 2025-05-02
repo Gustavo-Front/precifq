@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro - Calculadora</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --bg: #f9fafb;
+      --text: #1f2937;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      margin: 0; padding: 2rem;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: var(--card-bg); padding: 2rem; border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06); max-width: 400px; width: 100%;
+    }
+    h2 { color: var(--primary); text-align: center; margin-bottom: 1.5rem; }
+    label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    input {
+      width: 100%; padding: 0.75rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border); border-radius: 0.5rem;
+    }
+    button {
+      width: 100%; padding: 0.75rem;
+      background: var(--primary); color: white;
+      border: none; border-radius: 0.5rem; font-size: 1rem;
+    }
+    .switch {
+      margin-top: 1rem; text-align: center;
+    }
+    .switch a {
+      color: var(--primary); text-decoration: none; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Cadastro</h2>
+    <form id="cadastroForm">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" required>
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" required>
+      <button type="submit">Cadastrar</button>
+    </form>
+    <div class="switch">
+      Já tem uma conta? <a href="login.html">Faça login</a>
+    </div>
+  </div>
+  
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBci5VU1EiVZJvIjns0A_3vpOY3VzJuZ0M",
+    authDomain: "precifq.firebaseapp.com",
+    projectId: "precifq",
+    storageBucket: "precifq.firebasestorage.app",
+    messagingSenderId: "839718876371",
+    appId: "1:839718876371:web:6da95c3a6b85a95fd99026"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+
+  document.getElementById('cadastroForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    try {
+      await createUserWithEmailAndPassword(auth, email, senha);
+      alert('Cadastro realizado com sucesso!');
+      window.location.href = 'login.html';
+    } catch (error) {
+      alert('Erro ao cadastrar: ' + error.message);
+    }
+  });
+</script>
+
+</body>
+</html>
